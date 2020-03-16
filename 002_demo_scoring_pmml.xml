@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_2" version="4.2">
+<Header>
+    <Extension name="calibration" value="Piecewise Linear Mapping"/>
+    <Application name="JPMML-SkLearn" version="1.0-SNAPSHOT"/>
+    <Timestamp>2017-09-12T18:51:31Z</Timestamp>
+</Header>
+<DataDictionary>
+
+    <DataField name="finscore" optype="continuous" dataType="double"/>
+<!--     <DataField name="income" optype="continuous" dataType="double"/>
+    <DataField name="loan_amount" optype="continuous" dataType="double">
+               <Value value="10000"/>
+    </DataField>
+    <DataField name="loan_term" optype="continuous" dataType="double">
+                <Value value="36"/> -->
+  
+</DataDictionary>
+         
+
+        <TreeModel modelName="RPart_Model" functionName="regression" algorithmName="rpart" splitCharacteristic="binarySplit" missingValueStrategy="defaultChild" noTrueChildStrategy="returnLastPrediction">
+            <MiningSchema>
+                <!-- <MiningField name="RiskScore" usageType="predicted"/> -->
+                <MiningField name="finscore" usageType="active"/>
+            </MiningSchema>
+              
+            <Output>
+                <OutputField name="OutputScore" optype="continuous" dataType="double" feature="predictedValue"/>
+            </Output>
+              
+            <Node id="1" defaultChild="2">
+                <True/>
+            <Node id="2" score="0">
+                    <SimplePredicate field="finscore" operator="lessThan" value="500"/>
+            </Node>
+            <Node id="3" defaultChild="4">
+                <SimplePredicate field="finscore" operator="greaterOrEqual" value="500"/>
+            <Node id="4" score="120">
+                <SimplePredicate field="finscore" operator="lessThan" value="640"/>
+            </Node>
+            <Node id="5" score="250">
+                <SimplePredicate field="finscore" operator="greaterOrEqual" value="640"/>   
+            </Node>
+            </Node>
+            </Node>
+        </TreeModel>
+
+
+</PMML>
